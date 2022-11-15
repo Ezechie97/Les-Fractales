@@ -1,0 +1,176 @@
+---
+title: "Les Fractales"
+author: "Assovie_Ezechiel"
+date: "15/11/2022"
+output: html_document
+---
+```{r}
+
+Sierp<-function(n,x1,y1,x4,y4){
+     
+     if(n==0){
+         x<-c(x1,x4)
+         y<-c(y1,y4)
+         lines(x,y)
+       }else{
+           i<-n-1
+           x2<-x1+(x4-x1)/4-(y4-y1)/2
+           y2<-y1+(y4-y1)/4+(x4-x1)/2
+           x3<-x2+(x4-x1)/2
+           y3<-y2+(y4-y1)/2
+           Sierp(i,x1,y1,x2,y2)
+           Sierp(i,x3,y3,x2,y2)
+           Sierp(i,x3,y3,x4,y4)
+        }
+ }
+
+ 
+plot(c(0,1000),c(0,0),pch=".",axes=F,ylim=c(-100,1000),xlab="",ylab="",asp=1,xlim=c(-1000,2008))
+Sierp(6,0,0,1000,0)
+```
+
+```{r}
+CRISTAL<-function(n,x1,y1,x4,y4){
+  if(n==0){
+  x<-c(x1,x4)
+  y<-c(y1,y4)
+  lines(x,y,col="steelblue")
+  }else{
+  i<-n-1
+  x2<-x1+(x4-x1)/2
+  y2<-y1+(y4-y1)/2
+  x3<-x2+(y4-y1)/3
+  y3<-y2+(x4-x1)/3
+  CRISTAL(i,x1,y1,x2,y2)
+  CRISTAL(i,x2,y2,x3,y3)
+  CRISTAL(i,x3,y3,x2,y2)
+  CRISTAL(i,x2,y2,x4,y4)
+  }
+}
+
+plot(c(0,1000),c(0,0),pch=".",axes=F,ylim=c(-100,300),xlab="",ylab="",asp=1,xlim=c(0,1008))
+CRISTAL(7,0,0,1000,0)
+```
+
+```{r}
+Esc<-function(n,x1,y1,x4,y4){
+   if(n==0){
+    x<-c(x1,x4)
+    y<-c(y1,y4)
+    lines(x,y,col="red")
+    
+  }else{
+    j<-n-1
+    x2<-(2*x1+x4)/3
+    y2<-(y1+2*y4)/3
+    x3<-(x1+2*x4)/3
+    y3<-(2*y1+y4)/3
+    Esc(j,x1,y1,x2,y2)
+    Esc(j,x2,y2,x3,y3)
+    Esc(j,x3,y3,x4,y4)
+   
+  }
+}
+
+plot(c(0,100),c(0,100),pch=".",axes=F,ylim=c(0,20),xlab="",ylab="",asp=1,xlim=c(-5,20))
+Esc(5,0,0,10,10)
+```
+
+
+
+
+
+
+```{r}
+Sierpbis<-function(n,x1,y1,x4,y4){
+  if(n==0){
+    x<-c(x1,x4)
+    y<-c(y1,y4)
+    lines(x,y,col="green")
+  }else{
+    i<-n-1
+    x2<-x1+(x4-x1)/4-433*(y4-y1)/1000
+    y2<-y1+(y4-y1)/4+433*(x4-x1)/1000
+    x3<-x2+(x4-x1)/2                          
+    y3<-y2+(y4-y1)/2
+    Sierpbis(i,x2,y2,x1,y1)
+    Sierpbis(i,x2,y2,x3,y3)
+    Sierpbis(i,x4,y4,x3,y3)
+  }
+}
+
+plot(c(0,100),c(0,100),pch=".",axes=F,ylim=c(0,20),xlab="",ylab="",asp=1,xlim=c(-5,20))
+Sierpbis(6,0,0,10,10)
+```
+
+
+```{r}
+Hilbert<-function(n,x1,y1,x4,y4){
+  
+  pC<-NULL
+  
+  if (n == 0){
+    x<-c(x1,x4)
+    y<-c(y1,y4)
+    lines(x,y,col="steelblue")
+  }else{
+    i<-n-1
+    x2<-(x1+x4+y1-y4)/ 2;
+    y2<-(x4-x1+y1+y4)/2
+    Hilbert(i,x1,y1,x2,y2)
+    Hilbert(i,x4,y4,x2,y2)
+  }
+  
+}
+
+plot(c(0,1000),c(0,0),pch=".",axes=F,ylim=c(-1000,2006),xlab="",ylab="",asp=1,xlim=c(-10,2008))
+Hilbert(11,-1000,0,0,0)
+```
+
+
+```{r}
+vonkoch <- function (i,xA,yA,xB,yB) {
+  
+  if (i == 0) {
+    
+    x = c(xA,xB)
+    y = c(yA,yB)
+    lines(x, y,col="steelblue")
+  }
+  else {
+    j <- i-1 ;
+    x1<-(xB-xA)/3
+    y1<-(yB-yA)/3
+    x2<-(xB-xA)/6-sqrt(3)*(yB-yA)/6
+    y2<-sqrt(3)*(xB-xA)/6+(yB-yA)/6
+    xC<-xA+x1
+    yC<-yA+y1
+    xD<-xC+x2
+    yD<-yC+y2
+    xE<-xB-x1
+    yE<-yB-y1;
+    vonkoch(j,xA,yA,xC,yC)
+    vonkoch(j,xC,yC,xD,yD)
+    vonkoch(j,xD,yD,xE,yE)
+    vonkoch(j,xE,yE,xB,yB)
+  }
+}
+
+
+plot(c(0,1000),c(0,0),pch=".",axes=F,ylim=c(-10,300),xlab="",ylab="",asp=1,xlim=c(-10,1000))
+vonkoch(8,0,0,1000,0)
+```
+
+
+
+```{r}
+Etoile<-function(n,xA,yA,xB,yB,xC,yC){
+  vonkoch(n,xA,yA,xB,yB)
+  vonkoch(n,xB,yB,xC,yC)
+  vonkoch(n,xC,yC,xA,yA)
+}
+
+plot(c(0,1000),c(0,0),pch=".",axes=F,ylim=c(-1000,1000),xlab="",ylab="",asp=1,xlim=c(-10,1000))
+Etoile(8,0,0,1000,0,500,-1000)
+```
+
